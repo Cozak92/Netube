@@ -26,7 +26,7 @@ const cokieStore = MongoStore(session)
 app.use(helmet());
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname,"views"))
-app.use("/static", express.static(path.join(__dirname,"statcis")));
+app.use("/static", express.static(path.join(__dirname,"static")));
 app.use(cookie_parser());
 app.use(body_parser.json());
 app.use(body_parser.urlencoded({ extended:true }));

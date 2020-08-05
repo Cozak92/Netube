@@ -4,6 +4,8 @@ import Video from "../models/video"
 
 export const home = async (req, res) => {
 
+
+
     try{
         const videos = await Video.find({}).sort({_id:-1});
         res.render("home", {pageTitle : "HOME", videos});
@@ -29,20 +31,23 @@ export const search = async (req, res) =>{
     }
     res.render("Search" , {pageTitle : "Search", searchingBy, videos})
 }
-export const videos = (req, res) => res.render("videos" , {pageTitle : "Video Home"});
+export const videoss = (req, res) => res.render("videos" , {pageTitle : "Video Home"});
 
 
-export const postUpload = async (req, res) => {
+export const upload = async (req, res) => {
+
 
     try{
+        
+
         const { 
-            body:{ title, description},
-            videoFile: {location}
+            body: {title, description},
+            file :{location}
         } = req;
 
-    
-
         
+
+
         
         const newVideo = await Video.create({
             fileUrl: location,
@@ -50,12 +55,16 @@ export const postUpload = async (req, res) => {
             description: description,
             creator: req.user.id
         });
+
+        
         req.user.videos.push(newVideo.id);
         req.user.save();
         res.redirect(routes.videoDetail(newVideo.id));
     }
     catch(error){
-        res.redirect(routes.home);
+        console.log(error);
+        res.redirect(routes.join);
+        
     }
     
 
@@ -75,7 +84,7 @@ export const videoDetail = async (req, res) => {
     } = req;
 
    try{
-    const video = await Video.findById(id);
+    const video = await Video.findById(id).populate('creator');
     res.render("videoDetail" , {pageTitle : `${video.title}`,video});
    }
 

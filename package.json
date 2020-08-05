@@ -54,13 +54,11 @@
     "pug": "^3.0.0",
     "rd": "^2.0.1",
     "sass-loader": "^8.0.0",
+    "shx": "^0.3.2",
     "webpack": "^4.36.1",
-    "webpack-cli": "^3.3.12",
-    "shx": "^0.3.2"
-
+    "webpack-cli": "^3.3.12"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
-    
   }
 }

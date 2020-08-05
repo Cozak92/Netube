@@ -2,18 +2,18 @@ import express from "express";
 import routes from "../routes";
 import { 
 
-    videoDetail, deleteVideo, getEditVideo, getUpload ,postUpload,postEditVideo
+    videoDetail, deleteVideo, getEditVideo, getUpload ,upload,postEditVideo
 
 } from "../controller/videoController";
 
-import {uploadVideo,onlyPrivate} from "../middlewares"
+import {uploadVideo,onlyPrivate,awsDeleteVideo} from "../middlewares"
 
 
 const video_Router = express.Router();
 
 // upload
 video_Router.get(routes.upload, onlyPrivate,getUpload);
-video_Router.post(routes.upload, onlyPrivate, uploadVideo, postUpload);
+video_Router.post(routes.upload, onlyPrivate, uploadVideo, upload);
 
 video_Router.get(routes.videoDetail(), videoDetail);
 video_Router.get(routes.deleteVideo(),onlyPrivate, deleteVideo);

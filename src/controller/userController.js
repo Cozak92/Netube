@@ -126,9 +126,10 @@ export const logout = (req, res) => {
 
 export const getMe = async (req,res) => {
     try {
-        const user = await User.findById(req.user._id).populate("videos");
+        const user = await User.findById(req.user.id);
         res.render("userDetail", { pageTitle: "User Detail", user });
       } catch (error) {
+        console.log(error);
         res.redirect(routes.home);
       }
     
@@ -152,7 +153,7 @@ export const postEditProfile = async (req, res) =>{
         const user = await User.findByIdAndUpdate(req.user._id,{
             name,
             email,
-            avatarUrl: file ? file.path : req.user.avatarUrl
+            avatarUrl: file ? file.location : req.user.avatarUrl
         });
         user.save();
         res.redirect(routes.me);

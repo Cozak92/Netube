@@ -13,7 +13,7 @@ mongoose.connect(
 
 const db = mongoose.connection;
 
-const handleOpen = () => console.log("✅  Successfully connected to DB")
+const handleOpen = () => console.log("✅  Successfully connected to MongoDB")
 const handleError = error => console.log(`❌  ERROR on DB Connection ${error}`)
 
 db.once("open", handleOpen);

@@ -13,7 +13,7 @@ passport.use(new GoogleStrategty({
 
     clientID: process.env.GOOGLE_ID,
     clientSecret: process.env.GOOGLE_SECRET,
-    callbackURL: `https://stark-cove-41833.herokuapp.com/${routes.googleCallBack}`
+    callbackURL: `https://stark-cove-41833.herokuapp.com${routes.googleCallBack}`
     },googleLoginCallback)
     
 );
@@ -22,7 +22,7 @@ passport.use(new kakaoStrategty({
 
     clientID: process.env.KAKAO_ID,
     clientSecret: process.env.KAKAO_SECRET,
-    callbackURL: `https://stark-cove-41833.herokuapp.com/${routes.kakaoCallback}`
+    callbackURL: `https://stark-cove-41833.herokuapp.com${routes.kakaoCallback}`
     },kakaoLoginCallback)
 )
 

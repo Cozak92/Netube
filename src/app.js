@@ -1,5 +1,6 @@
 
 import path from "path";
+import flash from "express-flash"
 import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
@@ -38,6 +39,7 @@ app.use(session({
     store: new cokieStore({mongooseConnection:mongoose.connection})
 }));
 
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(localMiddleware);

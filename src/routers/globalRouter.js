@@ -19,7 +19,7 @@ global_Router.get(routes.logout,onlyPrivate, logout);
 
 global_Router.get(routes.google, googleLogin);
 global_Router.get(routes.googleCallBack, passport.authenticate('google',{
-    failureRedirect: routes.join
+    failureRedirect: routes.join, successFlash: "Welcom to Netube",
     }),
     postgoogleLogin
 );
@@ -29,7 +29,7 @@ global_Router.get(routes.me, getMe);
 
 global_Router.get(routes.kakao, kakaoLogin);
 global_Router.get(routes.kakaoCallback, passport.authenticate('kakao',{
-    failureRedirect: routes.join
+    failureRedirect: routes.join , successFlash: "Welcom to Netube",
     }),
     postKakaoLogin
 );

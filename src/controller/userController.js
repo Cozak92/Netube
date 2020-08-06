@@ -13,7 +13,7 @@ export const postJoin = async (req,res, next) =>{
     } = req;
 
     if (password !== password2){
-        alert("Wrong password")
+        req.flash("error", "Passwords don't match")
         res.render("join",{pageTitle: "Join"});
     }
     else {
@@ -37,7 +37,9 @@ export const postJoin = async (req,res, next) =>{
 export const getLogin = (req, res) => res.render("login", {pageTitle : "Login"})
 export const postLogin = passport.authenticate("local", {
     failureRedirect: routes.login,
-    successRedirect: routes.home
+    successRedirect: routes.home,
+    successFlash: "Welcome to Netube",
+    failureFlash: "Can't Login. Check your E-mail or password"
   });
 
 export const googleLogin = passport.authenticate('google', { scope: [
@@ -55,7 +57,7 @@ export const googleLoginCallback = async (token, tokenSecret, profile, done) => 
     try{
         const user = await User.findOne({email});
         if(user){
-            user.id = sub
+            user.googleId = sub
             user.save();
             return done(null, user);
         }else{
@@ -124,7 +126,7 @@ export const postKakaoLogin = (req,res) => {
 
 
 export const logout = (req, res) => {
-   
+        req.flash('info', "Logged out. Bye")
         req.logout();
         res.redirect(routes.home);
 
@@ -134,10 +136,12 @@ export const getMe = async (req,res) => {
     try {
         const user = await User.findById(req.user.id);
         res.render("userDetail", { pageTitle: "User Detail", user });
-      } catch (error) {
+      } 
+    catch (error) {
+        req.flash("error","Sorry, User not Found")
         console.log(error);
         res.redirect(routes.home);
-      }
+    }
     
 }
 
@@ -161,6 +165,7 @@ export const postEditProfile = async (req, res) =>{
             email,
             avatarUrl: file ? file.location : req.user.avatarUrl
         });
+        req.flash("sucesss","Profile updated")
         user.save();
         res.redirect(routes.me);
         
@@ -168,6 +173,7 @@ export const postEditProfile = async (req, res) =>{
 
     }
     catch(error){
+        req.flash("error","Can't update profile")
         console.log(error);
         res.render("editProfile", {pageTitle : "Edit Profile"});
     }

@@ -7,7 +7,8 @@ block content
             img.avatar(src="https://mybroadband.co.za/news/wp-content/uploads/2017/01/Profile-Picture.jpg")
         
 
-        - else img.avatar(src=user.avatarUrl)
+        - else 
+            img.avatar(src=user.avatarUrl)
 
             h4.profile__usernamer=user.name
         if loggedUser && user.id === loggedUser.id

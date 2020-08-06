@@ -13,6 +13,7 @@ export const postJoin = async (req,res, next) =>{
     } = req;
 
     if (password !== password2){
+        alert("Wrong password")
         res.render("join",{pageTitle: "Join"});
     }
     else {
@@ -49,22 +50,26 @@ export const googleLogin = passport.authenticate('google', { scope: [
 export const googleLoginCallback = async (token, tokenSecret, profile, done) => {
     const { _json: {sub, name, email, picture}} = profile;
 
+    console.log(profile);
+
     try{
         const user = await User.findOne({email});
         if(user){
-            user.googleId = sub
+            user.id = sub
             user.save();
+            return done(null, user);
         }else{
             const newUser = await User.create({
                 email: email,
                 name : name,
                 avatarUrl: picture,
-                googleId: sub
+                id: sub
                 })
-            return (null, newUser);
+            return done(null, newUser);
         }
     }
     catch(error){
+        console.log(error);
         return done(error)
     }
         
@@ -89,7 +94,7 @@ export const kakaoLoginCallback = async (accessToken, refreshToken, profile, don
           if(user != null){
               user.kakaoId = id;
               user.save();
-              return cb(null, user);
+              return done(null, user);
           }
           
           
@@ -97,14 +102,14 @@ export const kakaoLoginCallback = async (accessToken, refreshToken, profile, don
               email: email,
               name : nickname,
               avatarUrl: profile_image,
-              kakaoId: id
+              id: id
               })
 
           
-          return cb(null,newUser)
+          return done(null,newUser)
       }
       catch(error){
-          return cb(error);
+          return done(error);
       }
   };
 
@@ -119,8 +124,9 @@ export const postKakaoLogin = (req,res) => {
 
 
 export const logout = (req, res) => {
-    req.logout();
-    res.redirect(routes.home);
+   
+        req.logout();
+        res.redirect(routes.home);
 
 };
 

@@ -49,6 +49,7 @@ export const localMiddleware = (req, res, next) =>{
     res.locals.siteName = "NeTube";
     res.locals.routes = routes;
     res.locals.loggedUser = req.user || null;
+
     
     
     next();

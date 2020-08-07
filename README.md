@@ -6,6 +6,8 @@ Cloning Youtube with Vanilla JS and NodeJS
 
 유저 부분은 대부분 개발 완료했고 비디오 플레이어 쪽 부분만 남겨두고 있습니다.
 
+https://stark-cove-41833.herokuapp.com/
+
 
 
 ## Pages:

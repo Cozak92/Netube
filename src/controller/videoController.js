@@ -64,6 +64,7 @@ export const videoDetail = async (req, res) => {
       .populate("comments");
     res.render("videoDetail", { pageTitle: video.title, video });
   } catch (error) {
+    console.log(error)
     res.redirect(routes.home);
   }
 };

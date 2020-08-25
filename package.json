@@ -1,7 +1,10 @@
 {
   "name": "netube",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Cloning Youtube with Vanilla JS and NodeJS",
+  "engines": {
+    "node": "10.x"
+  },
   "main": "index.js",
   "scripts": {
     "copyAll": "shx cp -R src/static build &&shx cp -R src/views build",

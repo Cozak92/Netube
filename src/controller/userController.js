@@ -7,34 +7,31 @@ export const getJoin = (req, res) => {
 
 
 };
-export const postJoin = async (req,res, next) =>{
+export const postJoin = async (req, res, next) => {
     const {
-        body:{name,email,password,password2}
+      body: { name, email, password, password2 }
     } = req;
-
-    if (password !== password2){
-        req.flash("error", "Passwords don't match")
-        res.render("join",{pageTitle: "Join"});
+    if (password !== password2) {
+      req.flash("error", "Passwords don't match");
+      res.status(400);
+      res.render("join", { pageTitle: "Join" });
+    } else {
+      try {
+        const user = await User({
+          name,
+          email
+        });
+        await User.register(user, password);
+        next();
+      } catch (error) {
+        console.log(error);
+        res.redirect(routes.home);
+      }
     }
-    else {
-        try{
-            const user = await User({
-                name,email
-            });
-            await User.register(user,password);
-            next();
+  };
 
-        }
-        catch(error){
-            console.log(error)
-            res.redirect(routes.home)
-        }
-        
-    }
-     
-
-};
 export const getLogin = (req, res) => res.render("login", {pageTitle : "Login"})
+
 export const postLogin = passport.authenticate("local", {
     failureRedirect: routes.login,
     successRedirect: routes.home,
@@ -188,29 +185,21 @@ export const getEditProfile =  (req, res) =>{
     res.render("editProfile", {pageTitle : "Edit Profile"});
 }
 
-export const postEditProfile = async (req, res) =>{
+export const postEditProfile = async (req, res) => {
     const {
-        body: {name,email},
-        file
+      body: { name, email },
+      file
     } = req;
-
-    
-    try{
-        const user = await User.findByIdAndUpdate(req.user._id,{
-            name,
-            email,
-            avatarUrl: file ? file.location : req.user.avatarUrl
-        });
-        req.flash("sucesss","Profile updated")
-        user.save();
-        res.redirect(routes.me);
-        
-        
-
+    try {
+      await User.findByIdAndUpdate(req.user.id, {
+        name,
+        email,
+        avatarUrl: file ? file.location : req.user.avatarUrl
+      });
+      req.flash("success", "Profile updated");
+      res.redirect(routes.me);
+    } catch (error) {
+      req.flash("error", "Can't update profile");
+      res.redirect(routes.editProfile);
     }
-    catch(error){
-        req.flash("error","Can't update profile")
-        console.log(error);
-        res.render("editProfile", {pageTitle : "Edit Profile"});
-    }
-}
+  };

@@ -17,6 +17,10 @@ var commentSchema = new _mongoose["default"].Schema({
   createdAt: {
     type: Date,
     "default": Date.now
+  },
+  creator: {
+    type: _mongoose["default"].Schema.Types.ObjectId,
+    ref: "User"
   }
 });
 

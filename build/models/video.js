@@ -32,7 +32,11 @@ var videoSchema = new _mongoose["default"].Schema({
   comments: [{
     type: _mongoose["default"].Schema.Types.ObjectId,
     ref: "Comment"
-  }]
+  }],
+  creator: {
+    type: _mongoose["default"].Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 var model = _mongoose["default"].model("video", videoSchema);

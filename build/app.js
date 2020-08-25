@@ -7,6 +7,8 @@ exports["default"] = void 0;
 
 var _path = _interopRequireDefault(require("path"));
 
+var _expressFlash = _interopRequireDefault(require("express-flash"));
+
 var _express = _interopRequireDefault(require("express"));
 
 var _morgan = _interopRequireDefault(require("morgan"));
@@ -46,10 +48,12 @@ _dotenv["default"].config();
 var app = (0, _express["default"])();
 var cokieStore = (0, _connectMongo["default"])(_expressSession["default"]); // middleware
 
-app.use((0, _helmet["default"])());
+app.use((0, _helmet["default"])({
+  contentSecurityPolicy: false
+}));
 app.set("view engine", "pug");
 app.set("views", _path["default"].join(__dirname, "views"));
-app.use("/static", _express["default"]["static"](_path["default"].join(__dirname, "statcis")));
+app.use("/static", _express["default"]["static"](_path["default"].join(__dirname, "static")));
 app.use((0, _cookieParser["default"])());
 app.use(_bodyParser["default"].json());
 app.use(_bodyParser["default"].urlencoded({
@@ -64,6 +68,7 @@ app.use((0, _expressSession["default"])({
     mongooseConnection: _mongoose["default"].connection
   })
 }));
+app.use((0, _expressFlash["default"])());
 app.use(_passport["default"].initialize());
 app.use(_passport["default"].session());
 app.use(_middlewares.localMiddleware); //

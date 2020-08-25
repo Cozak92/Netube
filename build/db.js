@@ -17,7 +17,7 @@ _mongoose["default"].connect(process.env.MONGO_URL_PRD, {
 var db = _mongoose["default"].connection;
 
 var handleOpen = function handleOpen() {
-  return console.log("✅  Successfully connected to DB");
+  return console.log("✅  Successfully connected to MongoDB");
 };
 
 var handleError = function handleError(error) {

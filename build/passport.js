@@ -23,13 +23,13 @@ _passport["default"].use(_user["default"].createStrategy());
 _passport["default"].use(new _passportGoogleOauth["default"]({
   clientID: process.env.GOOGLE_ID,
   clientSecret: process.env.GOOGLE_SECRET,
-  callbackURL: "http://localhost:4000".concat(_routes["default"].googleCallBack)
+  callbackURL: "https://stark-cove-41833.herokuapp.com".concat(_routes["default"].googleCallBack)
 }, _userController.googleLoginCallback));
 
 _passport["default"].use(new _passportKakao["default"]({
   clientID: process.env.KAKAO_ID,
   clientSecret: process.env.KAKAO_SECRET,
-  callbackURL: "http://localhost:4000".concat(_routes["default"].kakaoCallback)
+  callbackURL: "https://stark-cove-41833.herokuapp.com".concat(_routes["default"].kakaoCallback)
 }, _userController.kakaoLoginCallback));
 
 _passport["default"].serializeUser(_user["default"].serializeUser());

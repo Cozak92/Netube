@@ -1,4 +1,12 @@
 extends layouts/mainPart.pug
 
 block content
-    p Videos
+    .home-videos
+        each item in videos
+            +videoBlock({
+                id:item.id,
+                title:item.title,
+                views:item.views,
+                videoFile:item.fileUrl
+
+            })

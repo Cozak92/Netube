@@ -16,7 +16,15 @@ var userSchema = new _mongoose["default"].Schema({
   email: String,
   avatarUrl: String,
   kakaoId: Number,
-  googleId: String
+  googleId: String,
+  comments: [{
+    type: _mongoose["default"].Schema.Types.ObjectId,
+    ref: "Comment"
+  }],
+  videos: [{
+    type: _mongoose["default"].Schema.Types.ObjectId,
+    ref: "Video"
+  }]
 });
 userSchema.plugin(_passportLocalMongoose["default"], {
   usernameField: "email"

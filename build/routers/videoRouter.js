@@ -19,7 +19,7 @@ var video_Router = _express["default"].Router(); // upload
 
 
 video_Router.get(_routes["default"].upload, _middlewares.onlyPrivate, _videoController.getUpload);
-video_Router.post(_routes["default"].upload, _middlewares.onlyPrivate, _middlewares.uploadVideo, _videoController.postUpload);
+video_Router.post(_routes["default"].upload, _middlewares.onlyPrivate, _middlewares.uploadVideo, _videoController.upload);
 video_Router.get(_routes["default"].videoDetail(), _videoController.videoDetail);
 video_Router.get(_routes["default"].deleteVideo(), _middlewares.onlyPrivate, _videoController.deleteVideo);
 video_Router.get(_routes["default"].editVideo(), _middlewares.onlyPrivate, _videoController.getEditVideo);

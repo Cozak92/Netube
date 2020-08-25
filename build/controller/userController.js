@@ -36,46 +36,47 @@ var postJoin = /*#__PURE__*/function () {
             _req$body = req.body, name = _req$body.name, email = _req$body.email, password = _req$body.password, password2 = _req$body.password2;
 
             if (!(password !== password2)) {
-              _context.next = 5;
+              _context.next = 6;
               break;
             }
 
+            req.flash("error", "Passwords don't match");
             res.render("join", {
               pageTitle: "Join"
             });
-            _context.next = 18;
+            _context.next = 19;
             break;
 
-          case 5:
-            _context.prev = 5;
-            _context.next = 8;
+          case 6:
+            _context.prev = 6;
+            _context.next = 9;
             return (0, _user["default"])({
               name: name,
               email: email
             });
 
-          case 8:
+          case 9:
             user = _context.sent;
-            _context.next = 11;
+            _context.next = 12;
             return _user["default"].register(user, password);
 
-          case 11:
+          case 12:
             next();
-            _context.next = 18;
+            _context.next = 19;
             break;
 
-          case 14:
-            _context.prev = 14;
-            _context.t0 = _context["catch"](5);
+          case 15:
+            _context.prev = 15;
+            _context.t0 = _context["catch"](6);
             console.log(_context.t0);
             res.redirect(_routes["default"].home);
 
-          case 18:
+          case 19:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[5, 14]]);
+    }, _callee, null, [[6, 15]]);
   }));
 
   return function postJoin(_x, _x2, _x3) {
@@ -95,7 +96,9 @@ exports.getLogin = getLogin;
 
 var postLogin = _passport["default"].authenticate("local", {
   failureRedirect: _routes["default"].login,
-  successRedirect: _routes["default"].home
+  successRedirect: _routes["default"].home,
+  successFlash: "Welcome to Netube",
+  failureFlash: "Can't Login. Check your E-mail or password"
 });
 
 exports.postLogin = postLogin;
@@ -117,53 +120,54 @@ var googleLoginCallback = /*#__PURE__*/function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             _profile$_json = profile._json, sub = _profile$_json.sub, name = _profile$_json.name, email = _profile$_json.email, picture = _profile$_json.picture;
-            _context2.prev = 1;
-            _context2.next = 4;
+            console.log(profile);
+            _context2.prev = 2;
+            _context2.next = 5;
             return _user["default"].findOne({
               email: email
             });
 
-          case 4:
+          case 5:
             user = _context2.sent;
 
             if (!user) {
-              _context2.next = 10;
+              _context2.next = 12;
               break;
             }
 
             user.googleId = sub;
             user.save();
-            _context2.next = 14;
-            break;
+            return _context2.abrupt("return", done(null, user));
 
-          case 10:
-            _context2.next = 12;
+          case 12:
+            _context2.next = 14;
             return _user["default"].create({
               email: email,
               name: name,
               avatarUrl: picture,
-              googleId: sub
+              id: sub
             });
 
-          case 12:
-            newUser = _context2.sent;
-            return _context2.abrupt("return", (null, newUser));
-
           case 14:
-            _context2.next = 19;
-            break;
+            newUser = _context2.sent;
+            return _context2.abrupt("return", done(null, newUser));
 
           case 16:
-            _context2.prev = 16;
-            _context2.t0 = _context2["catch"](1);
+            _context2.next = 22;
+            break;
+
+          case 18:
+            _context2.prev = 18;
+            _context2.t0 = _context2["catch"](2);
+            console.log(_context2.t0);
             return _context2.abrupt("return", done(_context2.t0));
 
-          case 19:
+          case 22:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[1, 16]]);
+    }, _callee2, null, [[2, 18]]);
   }));
 
   return function googleLoginCallback(_x4, _x5, _x6, _x7) {
@@ -209,7 +213,7 @@ var kakaoLoginCallback = /*#__PURE__*/function () {
 
             user.kakaoId = id;
             user.save();
-            return _context3.abrupt("return", cb(null, user));
+            return _context3.abrupt("return", done(null, user));
 
           case 10:
             _context3.next = 12;
@@ -217,17 +221,17 @@ var kakaoLoginCallback = /*#__PURE__*/function () {
               email: email,
               name: nickname,
               avatarUrl: profile_image,
-              kakaoId: id
+              id: id
             });
 
           case 12:
             newUser = _context3.sent;
-            return _context3.abrupt("return", cb(null, newUser));
+            return _context3.abrupt("return", done(null, newUser));
 
           case 16:
             _context3.prev = 16;
             _context3.t0 = _context3["catch"](2);
-            return _context3.abrupt("return", cb(_context3.t0));
+            return _context3.abrupt("return", done(_context3.t0));
 
           case 19:
           case "end":
@@ -251,6 +255,7 @@ var postKakaoLogin = function postKakaoLogin(req, res) {
 exports.postKakaoLogin = postKakaoLogin;
 
 var logout = function logout(req, res) {
+  req.flash('info', "Logged out. Bye");
   req.logout();
   res.redirect(_routes["default"].home);
 };
@@ -266,7 +271,7 @@ var getMe = /*#__PURE__*/function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return _user["default"].findById(req.user._id).populate("videos");
+            return _user["default"].findById(req.user.id);
 
           case 3:
             user = _context4.sent;
@@ -274,15 +279,17 @@ var getMe = /*#__PURE__*/function () {
               pageTitle: "User Detail",
               user: user
             });
-            _context4.next = 10;
+            _context4.next = 12;
             break;
 
           case 7:
             _context4.prev = 7;
             _context4.t0 = _context4["catch"](0);
+            req.flash("error", "Sorry, User not Found");
+            console.log(_context4.t0);
             res.redirect(_routes["default"].home);
 
-          case 10:
+          case 12:
           case "end":
             return _context4.stop();
         }
@@ -335,30 +342,32 @@ var postEditProfile = /*#__PURE__*/function () {
             return _user["default"].findByIdAndUpdate(req.user._id, {
               name: name,
               email: email,
-              avatarUrl: file ? file.path : req.user.avatarUrl
+              avatarUrl: file ? file.location : req.user.avatarUrl
             });
 
           case 4:
             user = _context5.sent;
+            req.flash("sucesss", "Profile updated");
             user.save();
             res.redirect(_routes["default"].me);
-            _context5.next = 13;
+            _context5.next = 15;
             break;
 
-          case 9:
-            _context5.prev = 9;
+          case 10:
+            _context5.prev = 10;
             _context5.t0 = _context5["catch"](1);
+            req.flash("error", "Can't update profile");
             console.log(_context5.t0);
             res.render("editProfile", {
               pageTitle: "Edit Profile"
             });
 
-          case 13:
+          case 15:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[1, 9]]);
+    }, _callee5, null, [[1, 10]]);
   }));
 
   return function postEditProfile(_x14, _x15) {

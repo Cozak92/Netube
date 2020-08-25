@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteVideo = exports.postEditVideo = exports.getEditVideo = exports.videoDetail = exports.getUpload = exports.postUpload = exports.videos = exports.search = exports.home = void 0;
+exports.deleteVideo = exports.postEditVideo = exports.getEditVideo = exports.videoDetail = exports.getUpload = exports.upload = exports.videoss = exports.search = exports.home = void 0;
 
 var _routes = _interopRequireDefault(require("../routes"));
 
@@ -112,15 +112,15 @@ var search = /*#__PURE__*/function () {
 
 exports.search = search;
 
-var videos = function videos(req, res) {
+var videoss = function videoss(req, res) {
   return res.render("videos", {
     pageTitle: "Video Home"
   });
 };
 
-exports.videos = videos;
+exports.videoss = videoss;
 
-var postUpload = /*#__PURE__*/function () {
+var upload = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
     var _req$body, title, description, location, newVideo;
 
@@ -129,7 +129,7 @@ var postUpload = /*#__PURE__*/function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
-            _req$body = req.body, title = _req$body.title, description = _req$body.description, location = req.videoFile.location;
+            _req$body = req.body, title = _req$body.title, description = _req$body.description, location = req.file.location;
             _context3.next = 4;
             return _video["default"].create({
               fileUrl: location,
@@ -143,15 +143,16 @@ var postUpload = /*#__PURE__*/function () {
             req.user.videos.push(newVideo.id);
             req.user.save();
             res.redirect(_routes["default"].videoDetail(newVideo.id));
-            _context3.next = 13;
+            _context3.next = 14;
             break;
 
           case 10:
             _context3.prev = 10;
             _context3.t0 = _context3["catch"](0);
-            res.redirect(_routes["default"].home);
+            console.log(_context3.t0);
+            res.redirect(_routes["default"].join);
 
-          case 13:
+          case 14:
           case "end":
             return _context3.stop();
         }
@@ -159,12 +160,12 @@ var postUpload = /*#__PURE__*/function () {
     }, _callee3, null, [[0, 10]]);
   }));
 
-  return function postUpload(_x5, _x6) {
+  return function upload(_x5, _x6) {
     return _ref3.apply(this, arguments);
   };
 }();
 
-exports.postUpload = postUpload;
+exports.upload = upload;
 
 var getUpload = function getUpload(req, res) {
   res.render("upload", {
@@ -184,7 +185,7 @@ var videoDetail = /*#__PURE__*/function () {
             id = req.params.id;
             _context4.prev = 1;
             _context4.next = 4;
-            return _video["default"].findById(id);
+            return _video["default"].findById(id).populate('creator');
 
           case 4:
             video = _context4.sent;

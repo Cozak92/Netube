@@ -50,7 +50,9 @@ export const googleLogin = passport.authenticate('google', { scope: [
     accessType: 'offline', approvalPrompt: 'force'});
 
 export const googleLoginCallback = async (token, tokenSecret, profile, done) => {
-    const { _json: {sub, name, email, picture}} = profile;
+    const { 
+        _json: {sub, name, email, picture}
+    } = profile;
 
     console.log(profile);
 

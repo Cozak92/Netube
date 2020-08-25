@@ -46,3 +46,4 @@ function init() {
 if (addCommentForm) {
   init();
 }
+//

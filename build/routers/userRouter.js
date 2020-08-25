@@ -17,8 +17,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var user_Router = _express["default"].Router();
 
-user_Router.get(_routes["default"].changePassword, _middlewares.onlyPrivate, _userController.changePassword);
 user_Router.get(_routes["default"].editProfile, _middlewares.onlyPrivate, _userController.getEditProfile);
 user_Router.post(_routes["default"].editProfile, _middlewares.onlyPrivate, _middlewares.uploadAvatar, _userController.postEditProfile);
+user_Router.get(_routes["default"].changePassword, _middlewares.onlyPrivate, _userController.getChangePassword);
+user_Router.post(_routes["default"].changePassword, _middlewares.onlyPrivate, _userController.postChangePassword);
+user_Router.get(_routes["default"].userDetail(), _userController.userDetail);
 var _default = user_Router;
 exports["default"] = _default;

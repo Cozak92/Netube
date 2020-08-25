@@ -24,10 +24,14 @@ var EDIT_VIDEO = "/:id/edit";
 var DELETE_VIDEO = '/:id/delete'; // GOOGLE
 
 var GOOGLE = "/auth/google";
-var GOOGLE_CALLBACK = "/auth/google/callback"; //f acebook
+var GOOGLE_CALLBACK = "/auth/google/callback"; //facebook
 
 var KAKAO = "/auth/kakao";
-var KAKAO_CALLBACK = "/auth/kakao/callback";
+var KAKAO_CALLBACK = "/auth/kakao/callback"; // API
+
+var API = "/api";
+var REGISTER_VIEW = "/:id/view";
+var ADD_COMMENT = "/:id/comment";
 var routes = {
   home: HOME,
   join: JOIN,
@@ -69,7 +73,10 @@ var routes = {
   googleCallBack: GOOGLE_CALLBACK,
   kakao: KAKAO,
   kakaoCallback: KAKAO_CALLBACK,
-  me: ME
+  me: ME,
+  api: API,
+  registerView: REGISTER_VIEW,
+  addComment: ADD_COMMENT
 };
 var _default = routes;
 exports["default"] = _default;

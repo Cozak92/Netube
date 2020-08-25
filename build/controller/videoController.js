@@ -7,9 +7,9 @@ exports.postAddComment = exports.postRegisterView = exports.deleteVideo = export
 
 var _routes = _interopRequireDefault(require("../routes"));
 
-var _Video = _interopRequireDefault(require("../models/Video"));
+var _video = _interopRequireDefault(require("../models/video"));
 
-var _Comment = _interopRequireDefault(require("../models/Comment"));
+var _comment = _interopRequireDefault(require("../models/comment"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -27,7 +27,7 @@ var home = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return _Video["default"].find({}).sort({
+            return _video["default"].find({}).sort({
               _id: -1
             });
 
@@ -76,7 +76,7 @@ var search = /*#__PURE__*/function () {
             videos = [];
             _context2.prev = 2;
             _context2.next = 5;
-            return _Video["default"].find({
+            return _video["default"].find({
               title: {
                 $regex: searchingBy,
                 $options: "i"
@@ -134,7 +134,7 @@ var postUpload = /*#__PURE__*/function () {
           case 0:
             _req$body = req.body, title = _req$body.title, description = _req$body.description, location = req.file.location;
             _context3.next = 3;
-            return _Video["default"].create({
+            return _video["default"].create({
               fileUrl: location,
               title: title,
               description: description,
@@ -173,7 +173,7 @@ var videoDetail = /*#__PURE__*/function () {
             id = req.params.id;
             _context4.prev = 1;
             _context4.next = 4;
-            return _Video["default"].findById(id).populate("creator").populate("comments");
+            return _video["default"].findById(id).populate("creator").populate("comments");
 
           case 4:
             video = _context4.sent;
@@ -215,7 +215,7 @@ var getEditVideo = /*#__PURE__*/function () {
             id = req.params.id;
             _context5.prev = 1;
             _context5.next = 4;
-            return _Video["default"].findById(id);
+            return _video["default"].findById(id);
 
           case 4:
             video = _context5.sent;
@@ -268,7 +268,7 @@ var postEditVideo = /*#__PURE__*/function () {
             id = req.params.id, _req$body2 = req.body, title = _req$body2.title, description = _req$body2.description;
             _context6.prev = 1;
             _context6.next = 4;
-            return _Video["default"].findOneAndUpdate({
+            return _video["default"].findOneAndUpdate({
               _id: id
             }, {
               title: title,
@@ -311,7 +311,7 @@ var deleteVideo = /*#__PURE__*/function () {
             id = req.params.id;
             _context7.prev = 1;
             _context7.next = 4;
-            return _Video["default"].findById(id);
+            return _video["default"].findById(id);
 
           case 4:
             video = _context7.sent;
@@ -325,7 +325,7 @@ var deleteVideo = /*#__PURE__*/function () {
 
           case 9:
             _context7.next = 11;
-            return _Video["default"].findOneAndRemove({
+            return _video["default"].findOneAndRemove({
               _id: id
             });
 
@@ -367,7 +367,7 @@ var postRegisterView = /*#__PURE__*/function () {
             id = req.params.id;
             _context8.prev = 1;
             _context8.next = 4;
-            return _Video["default"].findById(id);
+            return _video["default"].findById(id);
 
           case 4:
             video = _context8.sent;
@@ -413,12 +413,12 @@ var postAddComment = /*#__PURE__*/function () {
             id = req.params.id, comment = req.body.comment, user = req.user;
             _context9.prev = 1;
             _context9.next = 4;
-            return _Video["default"].findById(id);
+            return _video["default"].findById(id);
 
           case 4:
             video = _context9.sent;
             _context9.next = 7;
-            return _Comment["default"].create({
+            return _comment["default"].create({
               text: comment,
               creator: user.id
             });

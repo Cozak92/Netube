@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postEditProfile = exports.getEditProfile = exports.changePassword = exports.users = exports.getMe = exports.logout = exports.postKakaoLogin = exports.kakaoLoginCallback = exports.kakaoLogin = exports.postgoogleLogin = exports.googleLoginCallback = exports.googleLogin = exports.postLogin = exports.getLogin = exports.postJoin = exports.getJoin = void 0;
+exports.postEditProfile = exports.getEditProfile = exports.postChangePassword = exports.getChangePassword = exports.users = exports.userDetail = exports.getMe = exports.logout = exports.postKakaoLogin = exports.kakaoLoginCallback = exports.kakaoLogin = exports.postgoogleLogin = exports.googleLoginCallback = exports.googleLogin = exports.postLogin = exports.getLogin = exports.postJoin = exports.getJoin = void 0;
 
 var _routes = _interopRequireDefault(require("../routes"));
 
@@ -304,6 +304,48 @@ var getMe = /*#__PURE__*/function () {
 
 exports.getMe = getMe;
 
+var userDetail = /*#__PURE__*/function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
+    var id, user;
+    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            id = req.params.id;
+            _context5.prev = 1;
+            _context5.next = 4;
+            return _user["default"].findById(id).populate("videos");
+
+          case 4:
+            user = _context5.sent;
+            res.render("userDetail", {
+              pageTitle: "User Detail",
+              user: user
+            });
+            _context5.next = 12;
+            break;
+
+          case 8:
+            _context5.prev = 8;
+            _context5.t0 = _context5["catch"](1);
+            req.flash("error", "User not found");
+            res.redirect(_routes["default"].home);
+
+          case 12:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5, null, [[1, 8]]);
+  }));
+
+  return function userDetail(_x14, _x15) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+exports.userDetail = userDetail;
+
 var users = function users(req, res) {
   return res.render("users", {
     pageTitle: "Users"
@@ -312,13 +354,65 @@ var users = function users(req, res) {
 
 exports.users = users;
 
-var changePassword = function changePassword(req, res) {
+var getChangePassword = function getChangePassword(req, res) {
   return res.render("changePassword", {
     pageTitle: "Change Password"
   });
 };
 
-exports.changePassword = changePassword;
+exports.getChangePassword = getChangePassword;
+
+var postChangePassword = /*#__PURE__*/function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(req, res) {
+    var _req$body2, oldPassword, newPassword, newPassword1;
+
+    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _req$body2 = req.body, oldPassword = _req$body2.oldPassword, newPassword = _req$body2.newPassword, newPassword1 = _req$body2.newPassword1;
+            _context6.prev = 1;
+
+            if (!(newPassword !== newPassword1)) {
+              _context6.next = 7;
+              break;
+            }
+
+            req.flash("error", "Passwords don't match");
+            res.status(400);
+            res.redirect("/users/".concat(_routes["default"].changePassword));
+            return _context6.abrupt("return");
+
+          case 7:
+            _context6.next = 9;
+            return req.user.changePassword(oldPassword, newPassword);
+
+          case 9:
+            res.redirect(_routes["default"].me);
+            _context6.next = 17;
+            break;
+
+          case 12:
+            _context6.prev = 12;
+            _context6.t0 = _context6["catch"](1);
+            req.flash("error", "Can't change password");
+            res.status(400);
+            res.redirect("/users/".concat(_routes["default"].changePassword));
+
+          case 17:
+          case "end":
+            return _context6.stop();
+        }
+      }
+    }, _callee6, null, [[1, 12]]);
+  }));
+
+  return function postChangePassword(_x16, _x17) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+exports.postChangePassword = postChangePassword;
 
 var getEditProfile = function getEditProfile(req, res) {
   res.render("editProfile", {
@@ -329,16 +423,16 @@ var getEditProfile = function getEditProfile(req, res) {
 exports.getEditProfile = getEditProfile;
 
 var postEditProfile = /*#__PURE__*/function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(req, res) {
-    var _req$body2, name, email, file, user;
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
+    var _req$body3, name, email, file, user;
 
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
-            _req$body2 = req.body, name = _req$body2.name, email = _req$body2.email, file = req.file;
-            _context5.prev = 1;
-            _context5.next = 4;
+            _req$body3 = req.body, name = _req$body3.name, email = _req$body3.email, file = req.file;
+            _context7.prev = 1;
+            _context7.next = 4;
             return _user["default"].findByIdAndUpdate(req.user._id, {
               name: name,
               email: email,
@@ -346,32 +440,32 @@ var postEditProfile = /*#__PURE__*/function () {
             });
 
           case 4:
-            user = _context5.sent;
+            user = _context7.sent;
             req.flash("sucesss", "Profile updated");
             user.save();
             res.redirect(_routes["default"].me);
-            _context5.next = 15;
+            _context7.next = 15;
             break;
 
           case 10:
-            _context5.prev = 10;
-            _context5.t0 = _context5["catch"](1);
+            _context7.prev = 10;
+            _context7.t0 = _context7["catch"](1);
             req.flash("error", "Can't update profile");
-            console.log(_context5.t0);
+            console.log(_context7.t0);
             res.render("editProfile", {
               pageTitle: "Edit Profile"
             });
 
           case 15:
           case "end":
-            return _context5.stop();
+            return _context7.stop();
         }
       }
-    }, _callee5, null, [[1, 10]]);
+    }, _callee7, null, [[1, 10]]);
   }));
 
-  return function postEditProfile(_x14, _x15) {
-    return _ref5.apply(this, arguments);
+  return function postEditProfile(_x18, _x19) {
+    return _ref7.apply(this, arguments);
   };
 }();
 

@@ -28,9 +28,15 @@ const DELETE_VIDEO = '/:id/delete';
 const GOOGLE = "/auth/google";
 const GOOGLE_CALLBACK = "/auth/google/callback";
 
-//f acebook
+//facebook
 const KAKAO = "/auth/kakao"
 const KAKAO_CALLBACK = "/auth/kakao/callback"
+
+// API
+
+const API = "/api";
+const REGISTER_VIEW = "/:id/view";
+const ADD_COMMENT = "/:id/comment";
 
 
 const routes = {
@@ -79,7 +85,10 @@ const routes = {
     googleCallBack: GOOGLE_CALLBACK,
     kakao: KAKAO,
     kakaoCallback: KAKAO_CALLBACK,
-    me: ME
+    me: ME,
+    api: API,
+    registerView: REGISTER_VIEW,
+    addComment: ADD_COMMENT
 };
 
 export default routes;

@@ -18,7 +18,7 @@ https://stark-cove-41833.herokuapp.com/
 - [x] Home  
 - [x] Join  
 	*카카오와 깃허브 소셜로그인 구현
-- [X] Login
+- [X] Login  
 	*구현완료
 - [X] Seach  
 	*구현완료

@@ -133,7 +133,7 @@ export const logout = (req, res) => {
 
 export const getMe = async (req,res) => {
     try {
-        const user = await User.findById(req.user.id);
+        const user = await User.findById(req.user.id).populate('videos');
         res.render("userDetail", { pageTitle: "User Detail", user });
       } 
     catch (error) {
@@ -174,6 +174,7 @@ export const postChangePassword = async (req, res) => {
       return;
     }
     await req.user.changePassword(oldPassword, newPassword);
+    req.flash("success", "Passwords changed");
     res.redirect(routes.me);
   } catch (error) {
     req.flash("error", "Can't change password");

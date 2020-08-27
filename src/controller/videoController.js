@@ -119,7 +119,7 @@ export const deleteVideo = async (req, res) => {
   res.redirect(routes.home);
 };
 
-// Register Video View
+// Register Video View // 서버와 직접통신
 
 export const postRegisterView = async (req, res) => {
   const {
@@ -160,3 +160,25 @@ export const postAddComment = async (req, res) => {
     res.end();
   }
 };
+
+//delete video comment
+
+export const postRemoveComment = async (req, res) => {
+  const {
+      params: {id},
+      body: { commentId }
+  } = req;
+  
+  try {
+      await Comment.remove({_id:commentId});
+      const video = await Video.findById(id)
+      console.log(video);
+      video.comments.pull(commentId);
+      video.save();
+  } catch (error) {
+      console.log(error);
+      res.status(400);
+  } finally {
+      res.end();
+  }
+}

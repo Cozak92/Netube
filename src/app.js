@@ -17,6 +17,7 @@ import MongoStore from "connect-mongo";
 import mongoose from "mongoose"
 import session from "express-session";
 import dotenv from "dotenv"
+import apiRouter from "./routers/apiRouter";
 dotenv.config();
 
 const app = express();
@@ -54,6 +55,7 @@ app.use(localMiddleware);
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
 app.use(routes.videos,video_Router);
+app.use(routes.api, apiRouter);
 
 
 export default app;

@@ -8,6 +8,7 @@
   "main": "index.js",
   "scripts": {
     "copyAll": "shx cp -R src/static build &&shx cp -R src/views build",
+    "dev" : "npm run dev:assets && dev:server",
     "dev:server": "nodemon --exec babel-node src/init.js --delay 2",
     "dev:assets": "cd src&&cross-env WEBPACK_ENV=development webpack -w",
     "build:assets": "cd src&&cross-env WEBPACK_ENV=production webpack",

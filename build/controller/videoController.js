@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.postAddComment = exports.postRegisterView = exports.deleteVideo = exports.postEditVideo = exports.getEditVideo = exports.videoDetail = exports.postUpload = exports.getUpload = exports.search = exports.home = void 0;
+exports.postRemoveComment = exports.postAddComment = exports.postRegisterView = exports.deleteVideo = exports.postEditVideo = exports.getEditVideo = exports.videoDetail = exports.postUpload = exports.getUpload = exports.search = exports.home = void 0;
 
 var _routes = _interopRequireDefault(require("../routes"));
 
@@ -181,15 +181,16 @@ var videoDetail = /*#__PURE__*/function () {
               pageTitle: video.title,
               video: video
             });
-            _context4.next = 11;
+            _context4.next = 12;
             break;
 
           case 8:
             _context4.prev = 8;
             _context4.t0 = _context4["catch"](1);
+            console.log(_context4.t0);
             res.redirect(_routes["default"].home);
 
-          case 11:
+          case 12:
           case "end":
             return _context4.stop();
         }
@@ -352,7 +353,7 @@ var deleteVideo = /*#__PURE__*/function () {
   return function deleteVideo(_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
-}(); // Register Video View
+}(); // Register Video View // 서버와 직접통신
 
 
 exports.deleteVideo = deleteVideo;
@@ -452,6 +453,59 @@ var postAddComment = /*#__PURE__*/function () {
   return function postAddComment(_x17, _x18) {
     return _ref9.apply(this, arguments);
   };
-}();
+}(); //delete video comment
+
 
 exports.postAddComment = postAddComment;
+
+var postRemoveComment = /*#__PURE__*/function () {
+  var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(req, res) {
+    var id, commentId, video;
+    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            id = req.params.id, commentId = req.body.commentId;
+            _context10.prev = 1;
+            _context10.next = 4;
+            return _comment["default"].remove({
+              _id: commentId
+            });
+
+          case 4:
+            _context10.next = 6;
+            return _video["default"].findById(id);
+
+          case 6:
+            video = _context10.sent;
+            console.log(video);
+            video.comments.pull(commentId);
+            video.save();
+            _context10.next = 16;
+            break;
+
+          case 12:
+            _context10.prev = 12;
+            _context10.t0 = _context10["catch"](1);
+            console.log(_context10.t0);
+            res.status(400);
+
+          case 16:
+            _context10.prev = 16;
+            res.end();
+            return _context10.finish(16);
+
+          case 19:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, _callee10, null, [[1, 12, 16, 19]]);
+  }));
+
+  return function postRemoveComment(_x19, _x20) {
+    return _ref10.apply(this, arguments);
+  };
+}();
+
+exports.postRemoveComment = postRemoveComment;

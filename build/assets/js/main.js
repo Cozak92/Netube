@@ -4,4 +4,4 @@ require("../scss/styles.scss");
 
 require("./videoPlayer");
 
-require("./addComment");
+require("./comment");

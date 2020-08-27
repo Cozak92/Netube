@@ -36,47 +36,48 @@ var postJoin = /*#__PURE__*/function () {
             _req$body = req.body, name = _req$body.name, email = _req$body.email, password = _req$body.password, password2 = _req$body.password2;
 
             if (!(password !== password2)) {
-              _context.next = 6;
+              _context.next = 7;
               break;
             }
 
             req.flash("error", "Passwords don't match");
+            res.status(400);
             res.render("join", {
               pageTitle: "Join"
             });
-            _context.next = 19;
+            _context.next = 20;
             break;
 
-          case 6:
-            _context.prev = 6;
-            _context.next = 9;
+          case 7:
+            _context.prev = 7;
+            _context.next = 10;
             return (0, _user["default"])({
               name: name,
               email: email
             });
 
-          case 9:
+          case 10:
             user = _context.sent;
-            _context.next = 12;
+            _context.next = 13;
             return _user["default"].register(user, password);
 
-          case 12:
+          case 13:
             next();
-            _context.next = 19;
+            _context.next = 20;
             break;
 
-          case 15:
-            _context.prev = 15;
-            _context.t0 = _context["catch"](6);
+          case 16:
+            _context.prev = 16;
+            _context.t0 = _context["catch"](7);
             console.log(_context.t0);
             res.redirect(_routes["default"].home);
 
-          case 19:
+          case 20:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[6, 15]]);
+    }, _callee, null, [[7, 16]]);
   }));
 
   return function postJoin(_x, _x2, _x3) {
@@ -271,7 +272,7 @@ var getMe = /*#__PURE__*/function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return _user["default"].findById(req.user.id);
+            return _user["default"].findById(req.user.id).populate('videos');
 
           case 3:
             user = _context4.sent;
@@ -388,23 +389,24 @@ var postChangePassword = /*#__PURE__*/function () {
             return req.user.changePassword(oldPassword, newPassword);
 
           case 9:
+            req.flash("success", "Passwords changed");
             res.redirect(_routes["default"].me);
-            _context6.next = 17;
+            _context6.next = 18;
             break;
 
-          case 12:
-            _context6.prev = 12;
+          case 13:
+            _context6.prev = 13;
             _context6.t0 = _context6["catch"](1);
             req.flash("error", "Can't change password");
             res.status(400);
             res.redirect("/users/".concat(_routes["default"].changePassword));
 
-          case 17:
+          case 18:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[1, 12]]);
+    }, _callee6, null, [[1, 13]]);
   }));
 
   return function postChangePassword(_x16, _x17) {
@@ -424,7 +426,7 @@ exports.getEditProfile = getEditProfile;
 
 var postEditProfile = /*#__PURE__*/function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res) {
-    var _req$body3, name, email, file, user;
+    var _req$body3, name, email, file;
 
     return regeneratorRuntime.wrap(function _callee7$(_context7) {
       while (1) {
@@ -433,35 +435,30 @@ var postEditProfile = /*#__PURE__*/function () {
             _req$body3 = req.body, name = _req$body3.name, email = _req$body3.email, file = req.file;
             _context7.prev = 1;
             _context7.next = 4;
-            return _user["default"].findByIdAndUpdate(req.user._id, {
+            return _user["default"].findByIdAndUpdate(req.user.id, {
               name: name,
               email: email,
               avatarUrl: file ? file.location : req.user.avatarUrl
             });
 
           case 4:
-            user = _context7.sent;
-            req.flash("sucesss", "Profile updated");
-            user.save();
+            req.flash("success", "Profile updated");
             res.redirect(_routes["default"].me);
-            _context7.next = 15;
+            _context7.next = 12;
             break;
 
-          case 10:
-            _context7.prev = 10;
+          case 8:
+            _context7.prev = 8;
             _context7.t0 = _context7["catch"](1);
             req.flash("error", "Can't update profile");
-            console.log(_context7.t0);
-            res.render("editProfile", {
-              pageTitle: "Edit Profile"
-            });
+            res.redirect(_routes["default"].editProfile);
 
-          case 15:
+          case 12:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, null, [[1, 10]]);
+    }, _callee7, null, [[1, 8]]);
   }));
 
   return function postEditProfile(_x18, _x19) {

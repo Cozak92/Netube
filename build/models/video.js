@@ -39,7 +39,7 @@ var videoSchema = new _mongoose["default"].Schema({
   }
 });
 
-var model = _mongoose["default"].model("video", videoSchema);
+var model = _mongoose["default"].model("Video", videoSchema);
 
 var _default = model;
 exports["default"] = _default;

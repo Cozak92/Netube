@@ -32,6 +32,7 @@ var KAKAO_CALLBACK = "/auth/kakao/callback"; // API
 var API = "/api";
 var REGISTER_VIEW = "/:id/view";
 var ADD_COMMENT = "/:id/comment";
+var REMOVE_COMMENT = "/:id/comment/remove";
 var routes = {
   home: HOME,
   join: JOIN,
@@ -76,7 +77,8 @@ var routes = {
   me: ME,
   api: API,
   registerView: REGISTER_VIEW,
-  addComment: ADD_COMMENT
+  addComment: ADD_COMMENT,
+  removeComment: REMOVE_COMMENT
 };
 var _default = routes;
 exports["default"] = _default;

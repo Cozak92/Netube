@@ -8,7 +8,7 @@ Cloning Youtube with Vanilla JS and NodeJS
 
 https://stark-cove-41833.herokuapp.com/
 
-*수정해야될 부분
+* 수정해야될 부분
 
 - 회원탈퇴 기능 구현    
 - 코멘트 삭제 기능
